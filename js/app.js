@@ -94,9 +94,12 @@ FeedReadrApp.sources.reddit.refreshFeed = function(){
           "ARTICLE-TITLE": results[i].data.title,
           "ARTICLE-CATAGORY": results[i].data.subreddit_name_prefixed,
           "ARTICLE-IMPRESSIONS": results[i].data.score,
-          "ARTICLE-IMAGE-LINK": results[i].data.thumbnail, // results[i].preview.images?
+          "ARTICLE-IMAGE-LINK": results[i].data.thumbnail,
           "ARTICLE-LINK": results[i].data.url
         };
+        if ((article["ARTICLE-IMAGE-LINK"] == 'default') || (article["ARTICLE-IMAGE-LINK"] == 'self')){
+          article["ARTICLE-IMAGE-LINK"] = '/images/reddit_icon.png';
+        }
         output.push(article);
       };
       console.log(output);
