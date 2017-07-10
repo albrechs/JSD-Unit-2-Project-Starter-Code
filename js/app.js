@@ -17,7 +17,8 @@ FeedReadrApp.sources = {
 FeedReadrApp.sources.digg.refreshFeed = function() {
   $('#popUp').removeClass('hidden');
   var request = $.ajax({
-    url: this.feedUrl
+    url: this.feedUrl,
+    data: {count:25}
   });
 
   request.done(function(data){
@@ -119,7 +120,7 @@ FeedReadrApp.sources.reddit.refreshFeed = function() {
           "ARTICLE-LINK": results[i].data.url,
           "ARTICLE-SOURCE": "reddit"
         };
-        if ((article["ARTICLE-IMAGE-LINK"] == 'default') || (article["ARTICLE-IMAGE-LINK"] == 'self') || (article["ARTICLE-IMAGE-LINK"] == 'nsfw')){
+        if (article["ARTICLE-IMAGE-LINK"].slice(0,4) !== 'http'){
           article["ARTICLE-IMAGE-LINK"] = '/images/reddit_icon.png';
         }
         output.push(article);
