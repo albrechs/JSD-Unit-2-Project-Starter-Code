@@ -194,10 +194,8 @@ $(function(){
   FeedReadrApp.populateFeed('reddit');
 
   $('#main.container').on('click', 'a', function(){
-    console.log('CLICKED');
     event.preventDefault();
     var id = $(this).data('id');
-    console.log(id)
     FeedReadrApp.displayArticleDetail(id);
   });
 });
