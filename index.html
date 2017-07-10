@@ -12,12 +12,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
       <script id="result_list_item_template" type="text/x-handlebars-template">	
-        <article class="article">
+        <article class="article" data-article_id="{{ARTICLE-ID}}" data-source="{{ARTICLE-SOURCE}}">
           <section class="featuredImage">
             <img src="{{ARTICLE-IMAGE-LINK}}" alt="" />
           </section>
           <section class="articleContent">
-              <a href="{{ARTICLE-LINK}}" data-link="{{ARTICLE-LINK}}"><h3>{{ARTICLE-TITLE}}</h3></a>
+              <a href="#" data-id="{{ARTICLE-ID}}"><h3>{{ARTICLE-TITLE}}</h3></a>
               <h6>{{ARTICLE-CATAGORY}}</h6>
           </section>
           <section class="impressions">
@@ -25,6 +25,13 @@
           </section>
           <div class="clearfix"></div>
         </article>
+      </script>
+      <script id="article_popup" type="text/x-handlebars-template">
+        <h1>{{ARTICLE-TITLE}}</h1>
+        <p>
+          {{ARTICLE-SUMMARY}}
+        </p>
+        <a href="{{ARTICLE-LINK}}" class="popUpAction" target="_blank">Read more from source</a>
       </script>
       
     </head>
@@ -56,13 +63,8 @@
           </section>
         </header>
         <div id="popUp" class="loader hidden">
-          <a href="#" class="closePopUp">X</a>
+          <a href="#" class="closePopUp" onclick="FeedReadrApp.closePopUp()">X</a>
           <div class="container">
-            <h1>Article title here</h1>
-            <p>
-              Article description/content here.
-            </p>
-            <a href="#" class="popUpAction" target="_blank">Read more from source</a>
           </div>
         </div>
         <section id="main" class="container">
