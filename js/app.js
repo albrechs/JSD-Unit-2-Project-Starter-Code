@@ -1,4 +1,5 @@
 var FeedReadrApp = {};
+
 FeedReadrApp.currentArticles = [];
 
 FeedReadrApp.sources = {
@@ -13,7 +14,7 @@ FeedReadrApp.sources = {
   }
 };
 
-FeedReadrApp.sources.digg.refreshFeed = function(){
+FeedReadrApp.sources.digg.refreshFeed = function() {
   $('#popUp').removeClass('hidden');
   var request = $.ajax({
     url: this.feedUrl
@@ -51,9 +52,9 @@ FeedReadrApp.sources.digg.refreshFeed = function(){
       };
     };
   });
-}
+};
 
-FeedReadrApp.sources.mashable.refreshFeed = function(){
+FeedReadrApp.sources.mashable.refreshFeed = function() {
   $('#popUp').removeClass('hidden');
   var request = $.ajax({
     url: this.feedUrl
@@ -91,9 +92,9 @@ FeedReadrApp.sources.mashable.refreshFeed = function(){
       };
     };      
   });
-}
+};
 
-FeedReadrApp.sources.reddit.refreshFeed = function(){
+FeedReadrApp.sources.reddit.refreshFeed = function() {
   $('#popUp').removeClass('hidden');
   var request = $.ajax({
     url: this.feedUrl,
@@ -134,7 +135,7 @@ FeedReadrApp.sources.reddit.refreshFeed = function(){
       };
     };
   });
-}
+};
 
 FeedReadrApp.displayArticleDetail = function(article_id) {
   event.preventDefault();
@@ -155,24 +156,24 @@ FeedReadrApp.displayArticleDetail = function(article_id) {
   }
   var displayInfoHtml = FeedReadrApp.compilePopUp(displayInfo);
   $('#popUp .container').html(displayInfoHtml);
-}
+};
 
-FeedReadrApp.closePopUp = function(){
+FeedReadrApp.closePopUp = function() {
   $('#popUp .container').empty();
   $('#popUp').addClass('loader hidden');
-}
+};
 
 FeedReadrApp.compileArticle = function(data) {
   var source = $('#result_list_item_template').html();
   var template = Handlebars.compile(source);
   return template(data);
-}
+};
 
 FeedReadrApp.compilePopUp = function(data) {
   var source = $('#article_popup').html();
   var template = Handlebars.compile(source);
   return template(data);
-}
+};
 
 FeedReadrApp.populateFeed = function(source) {
   switch(source) {
@@ -188,14 +189,29 @@ FeedReadrApp.populateFeed = function(source) {
     default:
       console.log('Unrecognized source: ' + source);
   }
-}
+};
 
 $(function(){
   FeedReadrApp.populateFeed('reddit');
+
+  $('#header.container').on('click', 'a.logo', function(){
+    event.preventDefault();
+    FeedReadrApp.populateFeed('reddit');
+  });
 
   $('#main.container').on('click', 'a', function(){
     event.preventDefault();
     var id = $(this).data('id');
     FeedReadrApp.displayArticleDetail(id);
+  });
+
+  $('#search').on('click', 'a', function(){
+    event.preventDefault();
+    $('#search').toggleClass('active');
+    $('#search').on('submit', function(){
+      var search = $('#search').input;
+      $('#search').toggleClass('active');
+      console.log(search)
+    });
   });
 });
