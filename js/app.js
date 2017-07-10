@@ -14,6 +14,7 @@ FeedReadrApp.sources = {
 };
 
 FeedReadrApp.sources.digg.refreshFeed = function(){
+  $('#popUp').removeClass('hidden');
   var request = $.ajax({
     url: this.url
   });
@@ -22,6 +23,7 @@ FeedReadrApp.sources.digg.refreshFeed = function(){
     if (data.status !== 'ok') {
       alert("The Feed Failed to Load");
     } else {    
+      $('#main').empty();
       var output = [];
       var results = data.data.feed;
 
@@ -43,17 +45,20 @@ FeedReadrApp.sources.digg.refreshFeed = function(){
         var tempContent = output[i];
         var articleHTML = FeedReadrApp.compileHandlebars(tempContent);
         $('#main').append(articleHTML);
+        $('#popUp.loader').addClass('hidden');
       };
     };
   });
 }
 
 FeedReadrApp.sources.mashable.refreshFeed = function(){
+  $('#popUp').removeClass('hidden');
   var request = $.ajax({
     url: this.url
   });
 
   request.done(function(data){   
+      $('#main').empty();
       var output = [];
       var results = data.hot;
 
@@ -75,16 +80,20 @@ FeedReadrApp.sources.mashable.refreshFeed = function(){
         var tempContent = output[i];
         var articleHTML = FeedReadrApp.compileHandlebars(tempContent);
         $('#main').append(articleHTML);
+        $('#popUp.loader').addClass('hidden')
       };
   });
 }
 
 FeedReadrApp.sources.reddit.refreshFeed = function(){
+  $('#popUp').removeClass('hidden');
   var request = $.ajax({
-    url: this.url
+    url: this.url,
+    data: {t:"day"}
   });
 
   request.done(function(data){   
+      $('#main').empty();
       var output = [];
       var results = data.data.children;
 
@@ -97,7 +106,7 @@ FeedReadrApp.sources.reddit.refreshFeed = function(){
           "ARTICLE-IMAGE-LINK": results[i].data.thumbnail,
           "ARTICLE-LINK": results[i].data.url
         };
-        if ((article["ARTICLE-IMAGE-LINK"] == 'default') || (article["ARTICLE-IMAGE-LINK"] == 'self')){
+        if ((article["ARTICLE-IMAGE-LINK"] == 'default') || (article["ARTICLE-IMAGE-LINK"] == 'self') || (article["ARTICLE-IMAGE-LINK"] == 'nsfw')){
           article["ARTICLE-IMAGE-LINK"] = '/images/reddit_icon.png';
         }
         output.push(article);
@@ -109,6 +118,7 @@ FeedReadrApp.sources.reddit.refreshFeed = function(){
         var tempContent = output[i];
         var articleHTML = FeedReadrApp.compileHandlebars(tempContent);
         $('#main').append(articleHTML);
+        $('#popUp.loader').addClass('hidden')
       };
   });
 }
